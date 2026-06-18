@@ -35,9 +35,31 @@ async function run() {
 
     app.post('/users', async(req, res) => {
       const newUsers = req.body;
-      const result = await userCollection.insertOne(newUsers)
-      res.send(result)
+      const email = req.body.email;
+      const query = {email: email}
+      const existingUser = await userCollection.findOne(query)
+      if(existingUser){
+        res.send({message:"user already existed"})
+      }
+      else{
+        const result = await userCollection.insertOne(newUsers)
 
+      res.send(result)
+      }
+      
+
+    })
+
+    app.get('/users', async (req, res) => {
+      const cursor = userCollection.find();
+      const result = await cursor.toArray();
+      res.send(result);
+    })
+    
+    app.get("/latest-products", async (req, res) => {
+      const cursor = productCollection.find().sort({created_at: -1}).limit(6);
+      const result = await cursor.toArray()
+      res.send(result)
     })
 
     // Get method
