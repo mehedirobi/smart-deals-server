@@ -1,15 +1,17 @@
 const express = require("express");
 const cors = require("cors");
+require ('dotenv').config();
 const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 const app = express();
 const port = process.env.PORT || 3000;
+
 
 // middleware
 app.use(cors());
 app.use(express.json());
 
 const uri =
-  "mongodb://smartdbUser:JTBGv6732CsJp71n@ac-9t5qh4y-shard-00-00.yvhjyyn.mongodb.net:27017,ac-9t5qh4y-shard-00-01.yvhjyyn.mongodb.net:27017,ac-9t5qh4y-shard-00-02.yvhjyyn.mongodb.net:27017/?ssl=true&replicaSet=atlas-8ao4ay-shard-0&authSource=admin&appName=Cluster0";
+  `mongodb://${process.env.DB_USER}:${process.env.DB_PASS}@ac-9t5qh4y-shard-00-00.yvhjyyn.mongodb.net:27017,ac-9t5qh4y-shard-00-01.yvhjyyn.mongodb.net:27017,ac-9t5qh4y-shard-00-02.yvhjyyn.mongodb.net:27017/?ssl=true&replicaSet=atlas-8ao4ay-shard-0&authSource=admin&appName=Cluster0`;
 
 const client = new MongoClient(uri, {
   serverApi: {
